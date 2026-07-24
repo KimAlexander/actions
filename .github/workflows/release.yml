@@ -1,0 +1,32 @@
+name: ⚠️ Auto release
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        type: choice
+        description: Bump version as requested
+        required: false
+        default: minor
+        options:
+          - patch
+          - minor
+          - major
+  schedule:
+    - cron: '0 7 * * 1'
+
+jobs:
+  run-release:
+    name: Release
+    if: "!contains(github.event.head_commit.message, 'chore(release)')"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: taiga-family/actions/release-it@main # main
+        with:
+          mode: ${{ github.event.inputs.mode || 'minor' }}
+          githubToken: ${{ secrets.TAIGA_FAMILY_BOT_PAT }}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
