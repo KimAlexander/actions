@@ -23,7 +23,7 @@ jobs:
       - uses: KimAlexander/release-it@main # main
         with:
           mode: ${{ github.event.inputs.mode || 'minor' }}
-          githubToken: ${{ secrets.TAIGA_FAMILY_BOT_PAT }}
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
