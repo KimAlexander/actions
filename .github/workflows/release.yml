@@ -23,7 +23,7 @@ jobs:
       - uses: KimAlexander/release-it@main # main
         with:
           mode: ${{ github.event.inputs.mode || 'minor' }}
-          githubToken: ${{ secrets.GITHUB_TOKEN }}
+          githubToken: ${{ secrets.PAT_FOR_BOT }}
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
